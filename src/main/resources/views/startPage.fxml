@@ -2,10 +2,47 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.*?>
 
 <BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="com.csc180.brettbeloin.controllers.startPageController"
     prefHeight="400.0" prefWidth="600.0">
+
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <ComboBox fx:id="diff" promptText="Select the Difficulty">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Easy" />
+                        <String fx:value="Medium" />
+                        <String fx:value="Hard" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </VBox>
+        <VBox alignment="CENTER" spacing="10">
+            <ComboBox fx:id="cat" promptText="Select the Category">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="10" />
+                        <String fx:value="20" />
+                        <String fx:value="15" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox alignment="CENTER" spacing="10">
+        </VBox>
+    </bottom>
 
 </BorderPane>
