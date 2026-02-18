@@ -42,9 +42,9 @@
             <ComboBox fx:id="cat" promptText="Select the Category">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="10" />
-                        <String fx:value="20" />
-                        <String fx:value="15" />
+                        <String fx:value="Entertainment: Video Games (id: 15)" />
+                        <String fx:value="Science: Computers (id: 18)" />
+                        <String fx:value="Mythology (id: 20)" />
                     </FXCollections>
                 </items>
             </ComboBox>
