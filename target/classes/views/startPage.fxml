@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.*?>
+<?import java.lang.*?>
 
 <BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
@@ -11,7 +12,19 @@
     prefHeight="400.0" prefWidth="600.0">
 
     <top>
-        <VBox alignment="CENTER" spacing="10">
+        <VBox alignment="CENTER" spacing="5">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <Label text="Da Rules" style="-fx-font-size: 32px; -fx-font-weight: bold;" />
+
+            <Label text="1. You will have to pick a difficulty and a genre."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <Label text="2. click submit settings to start playing."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <Label text="3. After you will answer 10 quesions."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
         </VBox>
     </top>
 
@@ -26,8 +39,6 @@
                     </FXCollections>
                 </items>
             </ComboBox>
-        </VBox>
-        <VBox alignment="CENTER" spacing="10">
             <ComboBox fx:id="cat" promptText="Select the Category">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -37,11 +48,13 @@
                     </FXCollections>
                 </items>
             </ComboBox>
+            <Button fx:id="sub" text="submit settings" onAction="#submit"></Button>
         </VBox>
     </center>
 
     <bottom>
         <VBox alignment="CENTER" spacing="10">
+            <Label text="Copyright (c) 2026 Author. All Rights Reserved."></Label>
         </VBox>
     </bottom>
 
