@@ -1,6 +1,8 @@
 package com.csc180.brettbeloin.controllers;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +24,19 @@ public class startPageController {
 
     @FXML
     public void submit() throws IOException {
-        System.out.println("OK, OK, you want to submit I get it.");
+        String get_diff = diff.getValue();
+        String get_cat = extract_cat_id();
+        System.out.printf("we found %s for diff and %s for cat id\n", get_diff, get_cat);
+    }
+
+    private String extract_cat_id() {
+        Pattern pattern = Pattern.compile("\\(id: (\\d+)\\)");
+        Matcher matcher = pattern.matcher(cat.getValue());
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return "Error: Found nothing";
     }
 
 }
