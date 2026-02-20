@@ -33,9 +33,9 @@
             <ComboBox fx:id="diff" promptText="Select the Difficulty">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Easy" />
-                        <String fx:value="Medium" />
-                        <String fx:value="Hard" />
+                        <String fx:value="easy" />
+                        <String fx:value="medium" />
+                        <String fx:value="hard" />
                     </FXCollections>
                 </items>
             </ComboBox>
