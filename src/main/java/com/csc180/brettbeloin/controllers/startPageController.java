@@ -1,6 +1,7 @@
 package com.csc180.brettbeloin.controllers;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -40,8 +42,7 @@ public class startPageController {
 
     @FXML
     public void submit() throws IOException {
-        // call_api();
-        connect_mongo();
+        call_api();
     }
 
     private void call_api() {
@@ -49,11 +50,6 @@ public class startPageController {
         final String get_cat = extract_cat_id();
         final String question_api_url = String.format(
                 "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=boolean", get_cat, get_diff);
-        // final String url =
-        // "https://opentdb.com/api.php?amount=10&category=15&difficulty=medium&type=boolean";
-
-        // System.out.println(String.format("My url: %s\ngood url: %s\n",
-        // question_api_url, url));
         try {
 
             HttpClient client = HttpClient.newHttpClient();
@@ -62,22 +58,25 @@ public class startPageController {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+            CompletableFuture<HttpResponse<String>> response = client.sendAsync(request,
+                    HttpResponse.BodyHandlers.ofString());
 
-            System.out.println("After request");
+            response.thenAccept(res -> {
+                if (res.statusCode() == 200) {
+                    System.out.println("Response: " + res.body());
+                    connect_mongo(res);
+                } else {
+                    System.out.println("Error: " + res.statusCode());
+                }
+            }).join();
 
-            if (response.statusCode() == 200) {
-                System.out.println("Response: " + response.body());
-            } else {
-                System.out.println("Error: " + response.statusCode());
-            }
         } catch (Exception e) {
             System.out.println("there was an Error");
             System.out.println(e.getMessage());
         }
     }
 
-    private void connect_mongo() {
+    private void connect_mongo(HttpResponse<String> response) {
         final String connectionString = "mongodb+srv://Dev:password}@neumont.pjdf2lr.mongodb.net/?appName=neumont";
         final String db = "csc180_quiz_final";
         final String db_coll = "quiz";
