@@ -1,7 +1,7 @@
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/dal/MongoDAL.java
-/home/john/Documents/csc180_quiz_final/src/main/java/module-info.java
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/models/Game.java
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/dal/DAL.java
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/Main.java
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/SystemInfo.java
-/home/john/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/controllers/startPageController.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/dal/MongoDAL.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/Main.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/dal/DAL.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/controllers/startPageController.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/SystemInfo.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/module-info.java
+/home/brett/Documents/csc180_quiz_final/src/main/java/com/csc180/brettbeloin/models/Game.java

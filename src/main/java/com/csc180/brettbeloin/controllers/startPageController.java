@@ -1,28 +1,23 @@
 package com.csc180.brettbeloin.controllers;
 
 import com.csc180.brettbeloin.dal.MongoDAL;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.bson.Document;
+import org.bson.json.JsonObject;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.time.Duration;
-
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoException;
-import com.mongodb.ServerApi;
-import com.mongodb.ServerApiVersion;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,6 +26,8 @@ import javafx.scene.layout.BorderPane;
 
 public class startPageController {
     private MongoDAL dal = new MongoDAL();
+    final String db_coll = "quiz";
+    final String t_db_coll = "Games";
 
     @FXML
     private BorderPane root_node;
@@ -49,35 +46,38 @@ public class startPageController {
         call_api();
     }
 
-    private void call_api() {
+    private String call_api() {
         final String get_diff = diff.getValue();
         final String get_cat = extract_cat_id();
         final String question_api_url = String.format(
-                "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=boolean", get_cat, get_diff);
-        try {
+                "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=multiple", get_cat, get_diff);
+        System.out.println("url: " + question_api_url);
 
+        try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(question_api_url))
                     .GET()
                     .build();
 
-            CompletableFuture<HttpResponse<String>> response = client.sendAsync(request,
-                    HttpResponse.BodyHandlers.ofString());
-
-            response.thenAccept(res -> {
-                if (res.statusCode() == 200) {
-                    System.out.println("Response: " + res.body());
-                    dal.connect(res);
-                } else {
-                    System.out.println("Error: " + res.statusCode());
-                }
-            }).join();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(res -> {
+                        if (res.statusCode() == 200) {
+                            System.out.println("Response: " + res.body());
+                            return res.body();
+                        } else {
+                            System.out.println("Error: " + res.statusCode());
+                            return null;
+                        }
+                    })
+                    .join();
 
         } catch (Exception e) {
             System.out.println("there was an Error");
             System.out.println(e.getMessage());
+            return null;
         }
+
     }
 
     private String extract_cat_id() {

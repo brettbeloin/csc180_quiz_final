@@ -5,14 +5,16 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public interface DAL {
-    void connect(HttpResponse<String> response);
+    MongoDatabase connect(HttpResponse<String> response);
 
-    MongoCollection<Document> get_documents(String name);
+    List<Document> get_documents(MongoDatabase conn, String collection_name);
 
-    void insert_documents(String collection_name, List<Document> questions);
+    Document get_document_by_id(MongoDatabase conn, String string_id, String collection_name);
 
-    List<Document> get_questions_by_genre(String genre);
+    void insert_documents(MongoDatabase conn, String collection_name, List<Document> documents);
+
+    List<Document> get_questions_by_genre(MongoDatabase conn, String genre);
 }
