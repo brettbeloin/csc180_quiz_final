@@ -1,5 +1,7 @@
 package com.csc180.brettbeloin.controllers;
 
+import com.csc180.brettbeloin.dal.MongoDAL;
+
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
@@ -28,6 +30,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 
 public class startPageController {
+    private MongoDAL dal = new MongoDAL();
+
     @FXML
     private BorderPane root_node;
 
@@ -64,7 +68,7 @@ public class startPageController {
             response.thenAccept(res -> {
                 if (res.statusCode() == 200) {
                     System.out.println("Response: " + res.body());
-                    connect_mongo(res);
+                    dal.connect(res);
                 } else {
                     System.out.println("Error: " + res.statusCode());
                 }
@@ -73,31 +77,6 @@ public class startPageController {
         } catch (Exception e) {
             System.out.println("there was an Error");
             System.out.println(e.getMessage());
-        }
-    }
-
-    private void connect_mongo(HttpResponse<String> response) {
-        final String connectionString = "mongodb+srv://Dev:password}@neumont.pjdf2lr.mongodb.net/?appName=neumont";
-        final String db = "csc180_quiz_final";
-        final String db_coll = "quiz";
-
-        ServerApi serverApi = ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(connectionString))
-                .serverApi(serverApi)
-                .build();
-        // Create a new client and connect to the server
-        try (MongoClient mongoClient = MongoClients.create(settings)) {
-            try {
-                // Send a ping to confirm a successful connection
-                MongoDatabase database = mongoClient.getDatabase("admin");
-                database.runCommand(new Document("ping", 1));
-                System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
-            } catch (MongoException e) {
-                e.printStackTrace();
-            }
         }
     }
 

@@ -11,4 +11,5 @@ module com.csc180.brettbeloin {
 
     exports com.csc180.brettbeloin;
     exports com.csc180.brettbeloin.controllers;
+    exports com.csc180.brettbeloin.dal;
 }
