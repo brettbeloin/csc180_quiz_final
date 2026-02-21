@@ -1,0 +1,21 @@
+package com.csc180.brettbeloin.controllers;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.csc180.brettbeloin.controllers.startPageController;
+import com.csc180.brettbeloin.models.Question;
+
+import java.util.List;
+
+class startPageControllerTest {
+    startPageController stp = new startPageController();
+
+    @Test
+    void call_api() {
+        List<Question> foo = stp.call_api("18", "hard");
+
+        assertEquals(10, foo.size());
+    }
+}
