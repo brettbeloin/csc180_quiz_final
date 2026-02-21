@@ -41,17 +41,17 @@ public class startPageController {
 
     @FXML
     public void submit() throws IOException {
-        final String get_diff = diff.getValue();
-        final String get_cat = extract_cat_id();
-        List<Question> foo = call_api(get_cat, get_diff);
+        final String diff = this.diff.getValue();
+        final String cat = extract_cat_id(this.cat.getValue());
+        List<Question> foo = call_api(cat, diff);
         System.out.println("The Question: " + foo);
     }
 
-    public List<Question> call_api(String get_cat, String get_diff) {
+    protected List<Question> call_api(String cat, String diff) {
         ObjectMapper mapper = new ObjectMapper();
 
         final String question_api_url = String.format(
-                "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=multiple", get_cat, get_diff);
+                "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=multiple", cat, diff);
         System.out.println("url: " + question_api_url);
 
         try {
@@ -76,9 +76,9 @@ public class startPageController {
         }
     }
 
-    private String extract_cat_id() {
+    protected String extract_cat_id(String cat) {
         Pattern pattern = Pattern.compile("\\(id: (\\d+)\\)");
-        Matcher matcher = pattern.matcher(cat.getValue());
+        Matcher matcher = pattern.matcher(cat);
         if (matcher.find()) {
             return matcher.group(1);
         }
