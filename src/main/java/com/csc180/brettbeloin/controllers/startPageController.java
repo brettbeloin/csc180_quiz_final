@@ -1,18 +1,16 @@
 package com.csc180.brettbeloin.controllers;
 
+import com.csc180.brettbeloin.models.Question;
+
 import com.csc180.brettbeloin.dal.MongoDAL;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.bson.Document;
-import org.bson.json.JsonObject;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -43,12 +41,15 @@ public class startPageController {
 
     @FXML
     public void submit() throws IOException {
-        call_api();
-    }
-
-    private String call_api() {
         final String get_diff = diff.getValue();
         final String get_cat = extract_cat_id();
+        List<Question> foo = call_api(get_cat, get_diff);
+        System.out.println("The Question: " + foo);
+    }
+
+    public List<Question> call_api(String get_cat, String get_diff) {
+        ObjectMapper mapper = new ObjectMapper();
+
         final String question_api_url = String.format(
                 "https://opentdb.com/api.php?amount=10&category=%s&difficulty=%s&type=multiple", get_cat, get_diff);
         System.out.println("url: " + question_api_url);
@@ -60,24 +61,19 @@ public class startPageController {
                     .GET()
                     .build();
 
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(res -> {
-                        if (res.statusCode() == 200) {
-                            System.out.println("Response: " + res.body());
-                            return res.body();
-                        } else {
-                            System.out.println("Error: " + res.statusCode());
-                            return null;
-                        }
-                    })
-                    .join();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            var root_node = mapper.readTree(response.body());
+
+            // System.out.println("Response: " + response.body());
+            return mapper.convertValue(root_node.get("results"), new TypeReference<>() {
+            });
 
         } catch (Exception e) {
             System.out.println("there was an Error");
             System.out.println(e.getMessage());
             return null;
         }
-
     }
 
     private String extract_cat_id() {

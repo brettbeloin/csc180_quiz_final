@@ -1,19 +1,16 @@
 module com.csc180.brettbeloin {
-    requires java.net.http;
-
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires org.mongodb.bson;
+    requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.annotation;
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
-    requires com.fasterxml.jackson.databind;
+    requires org.mongodb.bson;
 
-    // add this back if I want logging of mongo
-    // requires org.slf4j;
-
+    opens com.csc180.brettbeloin to javafx.fxml, org.junit.platform.commons;
     opens com.csc180.brettbeloin.controllers to javafx.fxml;
-    opens com.csc180.brettbeloin to javafx.fxml;
+    opens com.csc180.brettbeloin.models to com.fasterxml.jackson.databind;
 
     exports com.csc180.brettbeloin;
     exports com.csc180.brettbeloin.controllers;

@@ -1,7 +1,9 @@
 com/csc180/brettbeloin/SystemInfo.class
+com/csc180/brettbeloin/models/Question.class
+com/csc180/brettbeloin/dal/DAL.class
+com/csc180/brettbeloin/controllers/startPageController.class
+com/csc180/brettbeloin/controllers/startPageController$1.class
+com/csc180/brettbeloin/dal/MongoDAL.class
 module-info.class
 com/csc180/brettbeloin/models/Game.class
-com/csc180/brettbeloin/controllers/startPageController.class
-com/csc180/brettbeloin/dal/DAL.class
 com/csc180/brettbeloin/Main.class
-com/csc180/brettbeloin/dal/MongoDAL.class
