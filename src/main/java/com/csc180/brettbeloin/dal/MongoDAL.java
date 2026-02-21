@@ -24,7 +24,7 @@ import java.util.List;
 public class MongoDAL implements DAL {
 
     @Override
-    public MongoDatabase connect(HttpResponse<String> response) {
+    public MongoDatabase connect() {
         final String connection_string = "mongodb+srv://Dev:password}@neumont.pjdf2lr.mongodb.net/?appName=neumont";
         final String t_db = "Test";
         final String db = "csc180_quiz_final";
@@ -50,15 +50,14 @@ public class MongoDAL implements DAL {
         return null;
     }
 
-    /*
-     * // Send a ping to confirm a successful connection
-     * this.database.runCommand(new Document("ping", 1));
-     * System.out.
-     * println("Pinged your deployment. You successfully connected to MongoDB!");
-     */
+    @Override
+    public String ping_database(MongoDatabase conn) {
+        conn.runCommand(new Document("ping", 1));
+        return "you phoned home";
+    }
 
     @Override
-    public List<Document> get_documents(MongoDatabase conn, String collection_name) {
+    public List<Document> get_all_documents(MongoDatabase conn, String collection_name) {
         if (conn == null) {
             return new ArrayList<>();
         }
@@ -84,7 +83,8 @@ public class MongoDAL implements DAL {
     }
 
     @Override
-    public void insert_documents(MongoDatabase conn, String collection_name, List<Document> documents) {
+    public HashMap<ObjectId, String> insert_documents(MongoDatabase conn, String collection_name,
+            List<Document> documents) {
         HashMap<ObjectId, String> insertedIds = new HashMap<>();
 
         try {
@@ -95,6 +95,8 @@ public class MongoDAL implements DAL {
             });
 
             System.out.println("Inserted documents with the following id and name: " + insertedIds);
+
+            return insertedIds;
         } catch (MongoBulkWriteException exception) {
 
             exception.getWriteResult().getInserts().forEach(upsert -> {
@@ -105,6 +107,8 @@ public class MongoDAL implements DAL {
 
             System.out.println("A MongoBulkWriteException occurred, but there are " +
                     "successfully processed documents with the following id and name: " + insertedIds);
+
+            return insertedIds;
         }
 
     }

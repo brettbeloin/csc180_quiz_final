@@ -18,4 +18,17 @@ class startPageControllerTest {
 
         assertEquals(10, foo.size());
     }
+
+    @Test
+    void get_id_value() {
+        String foo = stp.extract_cat_id("Mythology (id: 20)");
+        assertEquals("20", foo);
+    }
+
+    @Test
+    void get_id_value_failure() {
+        String foo = stp.extract_cat_id("Mythology (id: twenty)");
+        assertEquals("Error: Found nothing", foo);
+
+    }
 }
