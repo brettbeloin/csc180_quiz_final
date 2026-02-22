@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.csc180.brettbeloin.controllers.GameController"
+    prefHeight="400.0" prefWidth="600.0">
+
+    <top>
+        <VBox alignment="CENTER" spacing="5">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <Label text="Da Rules" style="-fx-font-size: 32px; -fx-font-weight: bold;" />
+
+            <Label text="1. You will have to pick a difficulty and a genre."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <Label text="2. click submit settings to start playing."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <Label text="3. After you will answer 10 quesions."
+                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="question_id" text="Question 1"></Label>
+            <Label fx:id="question_box" wrapText="true"
+                text="What was the name of the image that features as the default background wallpaper for Windows XP"></Label>
+            <Button fx:id="btn1" text="btn1" onAction="#submit"></Button>
+            <Button fx:id="btn2" text="btn2" onAction="#submit"></Button>
+            <Button fx:id="btn3" text="btn3" onAction="#submit"></Button>
+            <Button fx:id="btn4" text="btn4" onAction="#submit"></Button>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox alignment="CENTER" spacing="10">
+            <Button fx:id="start_game" visible="false" text="Start Game" onAction="#start_game"></Button>
+            <Label text="Copyright (c) 2026 Author. All Rights Reserved."></Label>
+        </VBox>
+    </bottom>
+
+</BorderPane>
