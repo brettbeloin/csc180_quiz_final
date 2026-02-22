@@ -5,7 +5,7 @@ what needs to be done:
 - [X] create start page FXML && start page controller
 - [X] create Dal and Database
 - [X] create unit tests for database and start page
-- [ ] hook the Database to the jokes api
-- [ ] create game class
+- [X] hook the Database to the triva api
+- [X] create game class
 - [ ] create game page FXML && game Page controller
 - [ ] create unit tests for game class and controller
