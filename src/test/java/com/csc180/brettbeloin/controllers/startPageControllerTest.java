@@ -15,20 +15,22 @@ class startPageControllerTest {
     @Test
     void call_api() {
         List<Question> foo = stp.call_api("18", "hard");
-
         assertEquals(10, foo.size());
     }
 
     @Test
     void get_id_value() {
-        String foo = stp.extract_cat_id("Mythology (id: 20)");
+        String foo = stp.validate_category("Mythology (id: 20)");
+
+        assertNotNull(foo);
         assertEquals("20", foo);
     }
 
     @Test
-    void get_id_value_failure() {
-        String foo = stp.extract_cat_id("Mythology (id: twenty)");
-        assertEquals("Error: Found nothing", foo);
+    void get_diff() {
+        String foo = stp.validate_difficulty("hard");
 
+        assertNotNull(foo);
+        assertEquals("hard", foo);
     }
 }

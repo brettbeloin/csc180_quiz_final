@@ -17,7 +17,7 @@ public interface DAL {
 
     HashMap<ObjectId, String> insert_documents(MongoDatabase conn, String collection_name, List<Document> documents);
 
-    List<Document> get_questions_by_genre(MongoDatabase conn, String genre);
+    List<Document> get_questions_by_genre(MongoDatabase conn, String collection_name, String type, String genre);
 
     String ping_database(MongoDatabase conn);
 }

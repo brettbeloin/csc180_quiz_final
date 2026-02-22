@@ -1,4 +1,0 @@
---patch-module
-com.csc180.brettbeloin=_
---add-reads
-com.csc180.brettbeloin=ALL-UNNAMED
