@@ -30,7 +30,7 @@
 
     <center>
         <VBox alignment="CENTER" spacing="10">
-            <ComboBox fx:id="diff" promptText="Select the Difficulty">
+            <ComboBox fx:id="check_box_difficulty" promptText="Select the Difficulty">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="easy" />
@@ -39,7 +39,7 @@
                     </FXCollections>
                 </items>
             </ComboBox>
-            <ComboBox fx:id="cat" promptText="Select the Category">
+            <ComboBox fx:id="check_box_category" promptText="Select the Category">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Entertainment: Video Games (id: 15)" />

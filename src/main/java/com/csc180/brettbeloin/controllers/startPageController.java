@@ -33,17 +33,18 @@ import javafx.stage.Stage;
 
 public class startPageController {
     private MongoDAL dal = new MongoDAL();
+    private String difficulty;
+    private String category;
     final String db_coll = "quiz";
-    final String t_db_coll = "Games";
 
     @FXML
     private BorderPane root_node;
 
     @FXML
-    private ComboBox<String> diff;
+    private ComboBox<String> check_box_difficulty;
 
     @FXML
-    private ComboBox<String> cat;
+    private ComboBox<String> check_box_category;
 
     @FXML
     private Button sub;
@@ -82,19 +83,22 @@ public class startPageController {
     }
 
     private List<Question> extract_data() {
-        final String diff = validate_difficulty(this.diff.getValue());
-        final String cat = validate_category(this.cat.getValue());
+        difficulty = validate_difficulty(check_box_difficulty.getValue());
+        category = validate_category(check_box_category.getValue());
 
-        if (diff == null || cat == null) {
+        if (difficulty == null || category == null) {
             display_warning("Invalid Entry", "Make sure that both difficulty and category are set");
         }
 
-        return call_api(cat, diff);
+        return call_api(category, difficulty);
     }
 
     private void change_page() throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/Triva.fxml"));
         Parent root = loader.load();
+
+        GameController controller = new GameController();
+        controller.init_data(difficulty, check_box_category.getValue());
 
         Stage stage = (Stage) this.root_node.getScene().getWindow();
         stage.setScene(new Scene(root));
