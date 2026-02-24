@@ -5,7 +5,6 @@ import com.csc180.brettbeloin.models.Question;
 import com.csc180.brettbeloin.dal.MongoDAL;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,18 +50,31 @@ public class startPageController {
 
     @FXML
     public void submit() throws IOException {
-        add_new_question();
-        change_page();
+        if (add_new_question()) {
+            change_page();
+        }
     }
 
-    private void add_new_question() {
+    private boolean add_new_question() {
         List<Document> documents_to_insert = convert_questions_to_document();
+
+        if (documents_to_insert == null) {
+            return false;
+        }
+
         dal.insert_documents(dal.connect(), "quiz", documents_to_insert);
         // debug(String.format("The Question: %s", foo));
+
+        return true;
     }
 
     private List<Document> convert_questions_to_document() {
         List<Question> foo = extract_data();
+
+        if (foo == null) {
+            return null;
+        }
+
         List<Document> documents_to_insert = new ArrayList<>();
 
         for (Question q : foo) {
@@ -88,6 +100,7 @@ public class startPageController {
 
         if (difficulty == null || category == null) {
             display_warning("Invalid Entry", "Make sure that both difficulty and category are set");
+            return null;
         }
 
         return call_api(category, difficulty);
