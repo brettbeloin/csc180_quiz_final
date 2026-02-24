@@ -120,11 +120,11 @@ public class MongoDAL implements DAL {
             String category) {
         Bson filter = Filters.and(Filters.eq("difficulty", difficulty), Filters.eq("category", category));
 
-        var foo = conn.getCollection(collenction_name)
+        List<Document> matched_docs = conn.getCollection(collenction_name)
                 .find(filter)
-                .into(new ArrayList<>());
+                .into(new ArrayList<Document>());
 
-        return foo;
+        return matched_docs;
     }
 
     private void debug(String problem) {

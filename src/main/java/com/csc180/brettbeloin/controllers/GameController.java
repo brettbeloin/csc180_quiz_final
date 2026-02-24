@@ -68,6 +68,15 @@ public class GameController {
         var tmp = get_question(difficulty, this.category);
     }
 
+    protected double calculate_score(int correct_guesses, int wrong_guesses) {
+        if (wrong_guesses == 0) {
+            return 100.0;
+        }
+
+        return correct_guesses / wrong_guesses;
+
+    }
+
     protected String extract_category_name(String category_name) {
         String regex = "^(.+?)(?=\s*\\(id:)";
 
