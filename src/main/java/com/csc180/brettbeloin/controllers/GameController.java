@@ -1,8 +1,8 @@
 package com.csc180.brettbeloin.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +11,7 @@ import org.bson.Document;
 import com.csc180.brettbeloin.models.Game;
 import com.csc180.brettbeloin.dal.MongoDAL;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ public class GameController {
     private String category;
     private Game game_instance;
     private List<Document> game_questions;
+    private int current_question = 0;
 
     @FXML
     private BorderPane root_node;
@@ -48,8 +50,12 @@ public class GameController {
     private Button btn4;
 
     @FXML
-    private void submit() {
-        debug("yes I am here");
+    private void submit(ActionEvent event) {
+        check_answers(event, this.current_question);
+
+        if (this.current_question < 10) {
+            set_ui(this.current_question);
+        }
     }
 
     @FXML
@@ -70,29 +76,56 @@ public class GameController {
         this.game_instance = new Game(0, 0, 0.0);
         this.game_questions = get_question(difficulty, this.category);
         // debug(tmp.getFirst().get("question").toString());
-        set_ui(0);
+        set_ui(this.current_question);
+
     }
 
     private void set_ui(int curr_question) {
-        var questions = randomize_questions(curr_question);
+        List<String> answers = randomize_questions(curr_question);
 
-        this.question_id.setText(String.format("Question: %s", Integer.toString(++curr_question)));
-        this.question_box.setText(this.game_questions.get(curr_question).get("question").toString());
+        this.question_id.setText(String.format("Question: %d", curr_question + 1));
+        this.question_box.setText(this.game_questions.get(curr_question).getString("question"));
+
+        btn1.setText(answers.get(0));
+        btn2.setText(answers.get(1));
+        btn3.setText(answers.get(2));
+        btn4.setText(answers.get(3));
+    }
+
+    private void check_answers(ActionEvent event, int curr_question) {
+        Button clicked_button = (Button) event.getSource();
+        String submited_answer = clicked_button.getText();
+        String correct_answer = this.game_questions.get(curr_question).getString("correct_answer");
+
+        if (submited_answer.equals(correct_answer)) {
+            game_instance.setCorrect_guesses(game_instance.getCorrect_guesses() + 1);
+        } else {
+            game_instance.setWrong_guesses(game_instance.getWrong_guesses() + 1);
+        }
+
+        this.current_question++;
     }
 
     private List<String> create_question_array(int curr_question) {
-        List<String> question_answers = (ArrayList) game_questions.get(curr_question).get("incorrect_answers");
-        question_answers.add(game_questions.get(curr_question).get("correct_answer").toString());
+        Document doc = game_questions.get(curr_question);
+
+        List<String> question_answers = new ArrayList<>((List<String>) doc.get("incorrect_answers"));
+        question_answers.add(doc.getString("correct_answer"));
+
+        // List<String> question_answers = (ArrayList)
+        // game_questions.get(curr_question).get("incorrect_answers");
+        // question_answers.add(game_questions.get(curr_question).get("correct_answer").toString());
         return question_answers;
     }
 
     private List<String> randomize_questions(int curr_question) {
-        Random rand = new Random();
         var foo = create_question_array(curr_question);
-        int baz = rand.nextInt((0 - foo.size()) + 1) + foo.size();
-        List<String> bar;
 
-        return bar;
+        debug(foo.toString());
+
+        Collections.shuffle(foo);
+
+        return foo;
     }
 
     protected double calculate_score(int correct_guesses, int wrong_guesses) {
