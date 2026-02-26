@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
@@ -23,11 +24,12 @@
                 style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
             <Label text="3. After you will answer 10 quesions."
                 style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <ImageView fx:id="score_image"></ImageView>
         </VBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="10">
+        <VBox fx:id="game_box" alignment="CENTER" spacing="10">
             <Label fx:id="question_id" text="Question 1"></Label>
             <Label fx:id="question_box" wrapText="true"
                 text="What was the name of the image that features as the default background wallpaper for Windows XP"></Label>
@@ -40,7 +42,9 @@
 
     <bottom>
         <VBox alignment="CENTER" spacing="10">
+            <Button fx:id="new_game" visible="false" text="new Game" onAction="#new_game"></Button>
             <Button fx:id="start_game" visible="false" text="Start Game" onAction="#start_game"></Button>
+            <TextArea fx:id="stats" editable="false"></TextArea>
             <Label text="Copyright (c) 2026 Author. All Rights Reserved."></Label>
         </VBox>
     </bottom>

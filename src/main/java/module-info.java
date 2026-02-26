@@ -7,6 +7,7 @@ module com.csc180.brettbeloin {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
     requires org.mongodb.bson;
+    requires javafx.graphics;
 
     opens com.csc180.brettbeloin to javafx.fxml, org.junit.platform.commons;
     opens com.csc180.brettbeloin.controllers to javafx.fxml;

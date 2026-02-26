@@ -78,12 +78,17 @@ public class startPageController {
         List<Document> documents_to_insert = new ArrayList<>();
 
         for (Question q : foo) {
+            List<String> clean_incorrect = new ArrayList<>();
+            for (String s : q.incorrect_answers()) {
+                clean_incorrect.add(html_decoder(s));
+            }
+
             Document doc = new Document("type", q.type())
                     .append("difficulty", q.difficulty())
                     .append("category", q.category())
-                    .append("question", q.question())
-                    .append("correct_answer", q.correct_answer())
-                    .append("incorrect_answers", q.incorrect_answers())
+                    .append("question", html_decoder(q.question()))
+                    .append("correct_answer", html_decoder(q.correct_answer()))
+                    .append("incorrect_answers", clean_incorrect)
                     .append("category", q.category())
                     .append("difficulty", q.difficulty())
                     .append("type", q.type());
@@ -92,6 +97,19 @@ public class startPageController {
         }
 
         return documents_to_insert;
+    }
+
+    private String html_decoder(String input) {
+        if (input == null)
+            return null;
+
+        return input.replace("&quot;", "\"")
+                .replace("&#039;", "'")
+                .replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&rsquo;", "'")
+                .replace("&deg;", "°");
     }
 
     private List<Question> extract_data() {
@@ -110,7 +128,7 @@ public class startPageController {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/Triva.fxml"));
         Parent root = loader.load();
 
-        GameController controller = new GameController();
+        GameController controller = loader.getController();
         controller.init_data(difficulty, check_box_category.getValue());
 
         Stage stage = (Stage) this.root_node.getScene().getWindow();

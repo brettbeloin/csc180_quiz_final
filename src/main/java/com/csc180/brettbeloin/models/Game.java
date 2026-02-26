@@ -37,8 +37,8 @@ public class Game {
 
     @Override
     public String toString() {
-        return String.format("You got: \n%d correct \n%d wrong \n\nyour score is: $.0f", getCorrect_guesses(),
-                getWrong_guesses(), getScore());
+        return String.format("You got: \n%d correct \n%d wrong \n\nyour score is: %.02f %s", getCorrect_guesses(),
+                getWrong_guesses(), getScore(), "%");
     }
 
 }
