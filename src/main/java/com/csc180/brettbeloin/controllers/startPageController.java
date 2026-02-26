@@ -110,7 +110,7 @@ public class startPageController {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/views/Triva.fxml"));
         Parent root = loader.load();
 
-        GameController controller = new GameController();
+        GameController controller = loader.getController();
         controller.init_data(difficulty, check_box_category.getValue());
 
         Stage stage = (Stage) this.root_node.getScene().getWindow();

@@ -1,6 +1,8 @@
 package com.csc180.brettbeloin.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,10 +17,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 public class GameController {
+    private final MongoDAL dal = new MongoDAL();
     private String difficulty;
     private String category;
     private Game game_instance;
-    private final MongoDAL dal = new MongoDAL();
+    private List<Document> game_questions;
 
     @FXML
     private BorderPane root_node;
@@ -65,7 +68,31 @@ public class GameController {
         this.category = extract_category_name(category);
 
         this.game_instance = new Game(0, 0, 0.0);
-        var tmp = get_question(difficulty, this.category);
+        this.game_questions = get_question(difficulty, this.category);
+        // debug(tmp.getFirst().get("question").toString());
+        set_ui(0);
+    }
+
+    private void set_ui(int curr_question) {
+        var questions = randomize_questions(curr_question);
+
+        this.question_id.setText(String.format("Question: %s", Integer.toString(++curr_question)));
+        this.question_box.setText(this.game_questions.get(curr_question).get("question").toString());
+    }
+
+    private List<String> create_question_array(int curr_question) {
+        List<String> question_answers = (ArrayList) game_questions.get(curr_question).get("incorrect_answers");
+        question_answers.add(game_questions.get(curr_question).get("correct_answer").toString());
+        return question_answers;
+    }
+
+    private List<String> randomize_questions(int curr_question) {
+        Random rand = new Random();
+        var foo = create_question_array(curr_question);
+        int baz = rand.nextInt((0 - foo.size()) + 1) + foo.size();
+        List<String> bar;
+
+        return bar;
     }
 
     protected double calculate_score(int correct_guesses, int wrong_guesses) {
@@ -74,7 +101,6 @@ public class GameController {
         }
 
         return correct_guesses / wrong_guesses;
-
     }
 
     protected String extract_category_name(String category_name) {
