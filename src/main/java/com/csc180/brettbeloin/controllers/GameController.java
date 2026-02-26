@@ -1,5 +1,6 @@
 package com.csc180.brettbeloin.controllers;
 
+import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +14,11 @@ import com.csc180.brettbeloin.dal.MongoDAL;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class GameController {
     private final MongoDAL dal = new MongoDAL();
@@ -29,10 +32,16 @@ public class GameController {
     private BorderPane root_node;
 
     @FXML
+    private VBox game_box;
+
+    @FXML
     private Label question_id;
 
     @FXML
-    Label question_box;
+    private Label question_box;
+
+    @FXML
+    private Button new_game;
 
     @FXML
     private Button start_game;
@@ -50,23 +59,40 @@ public class GameController {
     private Button btn4;
 
     @FXML
-    private void submit(ActionEvent event) {
-        check_answers(event, this.current_question);
+    private TextArea stats;
 
-        if (this.current_question < 10) {
+    @FXML
+    private void submit(ActionEvent event) {
+        if (this.current_question <= 10) {
+            check_answers(event, this.current_question);
             set_ui(this.current_question);
+            this.game_instance
+                    .setScore(calculate_score(game_instance.getCorrect_guesses(), game_instance.getWrong_guesses()));
         }
     }
 
     @FXML
+    private void new_game() {
+        debug("You can see me now");
+    }
+
+    @FXML
     private void start_game() {
-        debug("You can't see me");
+        debug("You can see me now");
         /*
          * what Im thinking for this:
          * Display a pop up for if you want to get new question:
          * if you do send back to the start page
          * if not reset the game class
          */
+    }
+
+    private void disable_buttons() {
+        for (Node node : game_box.getChildren()) {
+            if (node instanceof Button) {
+                node.setDisable(true);
+            }
+        }
     }
 
     protected void init_data(String difficulty, String category) {
@@ -90,6 +116,14 @@ public class GameController {
         btn2.setText(answers.get(1));
         btn3.setText(answers.get(2));
         btn4.setText(answers.get(3));
+
+        if (this.current_question == 10) {
+            disable_buttons();
+            new_game.setVisible(true);
+            start_game.setVisible(true);
+        }
+
+        stats.setText(game_instance.toString());
     }
 
     private void check_answers(ActionEvent event, int curr_question) {
@@ -151,6 +185,7 @@ public class GameController {
 
     protected List<Document> get_question(String difficulty, String category) {
         List<Document> questions = dal.get_questions_by_genre(dal.connect(), "quiz", difficulty, category);
+        Collections.shuffle(questions);
         return questions;
     }
 
