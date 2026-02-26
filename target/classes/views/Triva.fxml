@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
@@ -23,6 +24,7 @@
                 style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
             <Label text="3. After you will answer 10 quesions."
                 style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+            <ImageView fx:id="score_image"></ImageView>
         </VBox>
     </top>
 
