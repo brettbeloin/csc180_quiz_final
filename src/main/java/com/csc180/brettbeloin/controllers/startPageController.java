@@ -62,7 +62,7 @@ public class startPageController {
             return false;
         }
 
-        dal.insert_documents(dal.connect(), "quiz", documents_to_insert);
+        this.dal.insert_documents(this.dal.connect(), "quiz", documents_to_insert);
         // debug(String.format("The Question: %s", foo));
 
         return true;
@@ -113,15 +113,15 @@ public class startPageController {
     }
 
     private List<Question> extract_data() {
-        difficulty = validate_difficulty(check_box_difficulty.getValue());
-        category = validate_category(check_box_category.getValue());
+        this.difficulty = validate_difficulty(this.check_box_difficulty.getValue());
+        this.category = validate_category(this.check_box_category.getValue());
 
-        if (difficulty == null || category == null) {
+        if (this.difficulty == null || this.category == null) {
             display_warning("Invalid Entry", "Make sure that both difficulty and category are set");
             return null;
         }
 
-        return call_api(category, difficulty);
+        return call_api(this.category, this.difficulty);
     }
 
     private void change_page() throws IOException {
@@ -129,7 +129,7 @@ public class startPageController {
         Parent root = loader.load();
 
         GameController controller = loader.getController();
-        controller.init_data(difficulty, check_box_category.getValue());
+        controller.init_data(this.difficulty, this.check_box_category.getValue());
 
         Stage stage = (Stage) this.root_node.getScene().getWindow();
         stage.setScene(new Scene(root));
