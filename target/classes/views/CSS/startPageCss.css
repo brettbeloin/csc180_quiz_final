@@ -1,0 +1,24 @@
+.root {
+    -fx-background-color: #00843D;
+    /* Emerald Green */
+}
+
+.label {
+    -fx-text-fill: #FFD700;
+    /* Gold Text */
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #00622D;
+    /* Dark Green Button */
+    -fx-text-fill: white;
+    -fx-border-color: #FFD700;
+    /* Gold Border */
+    -fx-border-width: 2px;
+}
+
+.button:hover {
+    -fx-background-color: #FFD700;
+    -fx-text-fill: #00622D;
+}

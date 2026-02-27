@@ -1,52 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="com.csc180.brettbeloin.controllers.GameController"
-    prefHeight="400.0" prefWidth="600.0">
-
-    <top>
-        <VBox alignment="CENTER" spacing="5">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20" />
-            </padding>
-
-            <Label text="Da Rules" style="-fx-font-size: 32px; -fx-font-weight: bold;" />
-
-            <Label text="1. You will have to pick a difficulty and a genre."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
-            <Label text="2. click submit settings to start playing."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
-            <Label text="3. After you will answer 10 quesions."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
-            <ImageView fx:id="score_image"></ImageView>
-        </VBox>
-    </top>
+<BorderPane fx:id="root_node" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@CSS/gamePageCss.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csc180.brettbeloin.controllers.GameController">
 
     <center>
-        <VBox fx:id="game_box" alignment="CENTER" spacing="10">
-            <Label fx:id="question_id" text="Question 1"></Label>
-            <Label fx:id="question_box" wrapText="true"
-                text="What was the name of the image that features as the default background wallpaper for Windows XP"></Label>
-            <Button fx:id="btn1" text="btn1" onAction="#submit"></Button>
-            <Button fx:id="btn2" text="btn2" onAction="#submit"></Button>
-            <Button fx:id="btn3" text="btn3" onAction="#submit"></Button>
-            <Button fx:id="btn4" text="btn4" onAction="#submit"></Button>
-        </VBox>
+        <AnchorPane fx:id="game_box">
+            <children>
+            <HBox layoutX="527.0" layoutY="754.0" maxHeight="30.0">
+               <children>
+                      <Button fx:id="new_game" onAction="#new_game" text="new Game" visible="false" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="15.0" />
+                      <Button fx:id="start_game" onAction="#start_game" text="Start Game" visible="false" />
+               </children>
+               <padding>
+                  <Insets top="-1.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="548.0" layoutY="251.0">
+               <children>
+                      <Button fx:id="btn1" maxWidth="1.7976931348623157E308" onAction="#submit" text="btn1" wrapText="true" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="20.0" prefWidth="50.0" />
+                      <Button fx:id="btn2" maxWidth="1.7976931348623157E308" onAction="#submit" text="btn2" wrapText="true" />
+               </children>
+            </HBox>
+            <HBox layoutX="548.0" layoutY="377.0">
+               <children>
+                      <Button fx:id="btn3" maxWidth="1.7976931348623157E308" onAction="#submit" text="btn3" wrapText="true" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="20.0" prefWidth="50.0" />
+                      <Button fx:id="btn4" maxWidth="1.7976931348623157E308" onAction="#submit" text="btn4" wrapText="true" />
+               </children>
+            </HBox>
+            </children>
+        </AnchorPane>
     </center>
 
     <bottom>
-        <VBox alignment="CENTER" spacing="10">
-            <Button fx:id="new_game" visible="false" text="new Game" onAction="#new_game"></Button>
-            <Button fx:id="start_game" visible="false" text="Start Game" onAction="#start_game"></Button>
-            <TextArea fx:id="stats" editable="false"></TextArea>
-            <Label text="Copyright (c) 2026 Author. All Rights Reserved."></Label>
-        </VBox>
+      <VBox fx:id="copy_right" alignment="CENTER">
+         <children>
+                <Label text="Copyright (c) 2026 Author. All Rights Reserved." />
+         </children>
+      </VBox>
     </bottom>
+   <top>
+          <VBox fx:id="question_container" alignment="CENTER" BorderPane.alignment="CENTER">
+              <children>
+                  <Label fx:id="question_id" text="Question 1" />
+                  <Label fx:id="question_box" alignment="CENTER" text="What was the name of the image that features as the default background wallpaper for Windows XP" wrapText="true" />
+              </children>
+          </VBox>
+   </top>
+   <right>
+          <VBox fx:id="game_stats" alignment="CENTER" prefHeight="200.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+              <children>
+                  <Label fx:id="correct_guess" text="Correct: 0" />
+                  <Separator minWidth="-Infinity" opacity="0.0" prefHeight="23.0" prefWidth="50.0" />
+                  <Label fx:id="wrong_guess" text="Wrong: 0" />
+                  <Separator minWidth="-Infinity" opacity="0.0" prefHeight="23.0" prefWidth="50.0" />
+                  <Label fx:id="score" text="Score: 0.00%" />
+              </children>
+          </VBox>
+   </right>
+   <left>
+      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+                <ImageView fx:id="score_image" fitHeight="300.0" fitWidth="300.0" preserveRatio="true" />
+         </children>
+      </VBox>
+   </left>
 
 </BorderPane>

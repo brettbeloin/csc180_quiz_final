@@ -49,6 +49,12 @@ public class startPageController {
     private Button sub;
 
     @FXML
+    private void initialize() {
+        String css = this.getClass().getResource("/views/CSS/startPageCss.css").toExternalForm();
+        root_node.getStylesheets().add(css);
+    }
+
+    @FXML
     public void submit() throws IOException {
         if (add_new_question()) {
             change_page();

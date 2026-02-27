@@ -1,16 +1,18 @@
 package com.csc180.brettbeloin.controllers;
 
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.scene.layout.AnchorPane;
 import org.bson.Document;
 
 import com.csc180.brettbeloin.models.Game;
@@ -41,7 +43,7 @@ public class GameController {
     private BorderPane root_node;
 
     @FXML
-    private VBox game_box;
+    private AnchorPane game_box;
 
     @FXML
     private Label question_id;
@@ -71,7 +73,19 @@ public class GameController {
     private ImageView score_image;
 
     @FXML
-    private TextArea stats;
+    private Label correct_guess;
+
+    @FXML
+    private Label wrong_guess;
+
+    @FXML
+    private Label score;
+
+    @FXML
+    private void initialize() {
+        String css = this.getClass().getResource("/views/CSS/gamePageCss.css").toExternalForm();
+        root_node.getStylesheets().add(css);
+    }
 
     @FXML
     private void submit(ActionEvent event) {
@@ -118,12 +132,12 @@ public class GameController {
     }
 
     private void display_image() {
-        String path = (this.game_instance.getScore() >= 75.0) ? "/img/happy.jpg" : "/img/angry.jpg";
+        String path = (this.game_instance.getScore() >= 75.0) ? "/img/happy.png" : "/img/angry.png";
 
         Image image = new Image(getClass().getResource(path).toExternalForm());
 
         this.score_image.setImage(image);
-        this.score_image.setFitWidth(100);
+        this.score_image.setFitWidth(300);
         this.score_image.setPreserveRatio(true);
         this.score_image.setVisible(true);
     }
@@ -142,9 +156,18 @@ public class GameController {
     }
 
     private void disable_buttons() {
-        for (Node node : this.game_box.getChildren()) {
-            if (node instanceof Button) {
-                node.setDisable(true);
+        for (Node container : this.game_box.getChildren()) {
+
+            // 2. Check if the child is a layout container (like HBox)
+            if (container instanceof javafx.scene.layout.Pane pane) {
+
+                // 3. Iterate through the buttons inside each HBox
+                for (Node node : pane.getChildren()) {
+                    if (node instanceof Button btn && !"new_game".equals(btn.getId())
+                            && !"start_game".equals(btn.getId())) {
+                        btn.setDisable(true);
+                    }
+                }
             }
         }
     }
@@ -165,24 +188,25 @@ public class GameController {
 
         this.question_id.setText(String.format("Question: %d", curr_question + 1));
         this.question_box.setText(html_decoder(this.game_questions.get(curr_question).getString("question")));
-        this.stats.setText(this.game_instance.toString());
 
         this.btn1.setText(answers.get(0));
         this.btn2.setText(answers.get(1));
-        this.btn2.setText(answers.get(2));
+        this.btn3.setText(answers.get(2));
         this.btn4.setText(answers.get(3));
 
     }
 
     private void check_answers(ActionEvent event, int curr_question) {
         Button clicked_button = (Button) event.getSource();
-        String submited_answer = clicked_button.getText();
+        String submitted_answer = clicked_button.getText();
         String correct_answer = this.game_questions.get(curr_question).getString("correct_answer");
 
-        if (submited_answer.equals(correct_answer)) {
+        if (submitted_answer.equals(correct_answer)) {
             this.game_instance.setCorrect_guesses(this.game_instance.getCorrect_guesses() + 1);
+            this.correct_guess.setText(String.format("Correct: %d", this.game_instance.getCorrect_guesses()));
         } else {
             this.game_instance.setWrong_guesses(this.game_instance.getWrong_guesses() + 1);
+            this.wrong_guess.setText(String.format("Wrong: %d", this.game_instance.getWrong_guesses()));
         }
 
         if (this.current_question < this.test_questions.size() - 1) {
@@ -192,6 +216,7 @@ public class GameController {
         this.game_instance
                 .setScore(calculate_score(this.game_instance.getCorrect_guesses(),
                         this.game_instance.getWrong_guesses()));
+        this.score.setText(String.format("Score: %.02f%s", this.game_instance.getScore(), "%"));
     }
 
     protected List<String> create_question_array(int curr_question) {
@@ -248,8 +273,19 @@ public class GameController {
         Collections.shuffle(questions);
         int limit = Math.min(10, questions.size());
 
-        for (int i = 0; i < limit; i++) {
-            this.test_questions.add(questions.get(i));
+        Set<String> seen_qustions = new HashSet<>();
+
+        for (Document doc : questions) {
+            if (this.test_questions.size() >= limit) {
+                break;
+            }
+
+            String question_test = doc.getString("question");
+
+            if (!seen_qustions.contains(question_test)) {
+                this.test_questions.add(doc);
+                seen_qustions.add(question_test);
+            }
         }
 
         return this.test_questions;

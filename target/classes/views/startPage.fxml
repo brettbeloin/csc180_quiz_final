@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.collections.*?>
-<?import java.lang.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root_node" xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="com.csc180.brettbeloin.controllers.startPageController"
-    prefHeight="400.0" prefWidth="600.0">
+<BorderPane fx:id="root_node" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csc180.brettbeloin.controllers.startPageController">
 
     <top>
         <VBox alignment="CENTER" spacing="5">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20" />
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
-            <Label text="Da Rules" style="-fx-font-size: 32px; -fx-font-weight: bold;" />
+                        <Label style="-fx-font-size: 32px; -fx-font-weight: bold;" text="Da Rules" />
 
-            <Label text="1. You will have to pick a difficulty and a genre."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
-            <Label text="2. click submit settings to start playing."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
-            <Label text="3. After you will answer 10 quesions."
-                style="-fx-font-size: 18.7px; -fx-font-weight: bold;" />
+                        <Label style="-fx-font-size: 18.7px; -fx-font-weight: bold;" text="1. You will have to pick a difficulty and a genre." />
+            <Label style="-fx-font-size: 18.7px; -fx-font-weight: bold;" text="2. click submit settings to start playing." />
+            <Label style="-fx-font-size: 18.7px; -fx-font-weight: bold;" text="3. After you will answer 10 quesions." />
         </VBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="10">
-            <ComboBox fx:id="check_box_difficulty" promptText="Select the Difficulty">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="easy" />
-                        <String fx:value="medium" />
-                        <String fx:value="hard" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-            <ComboBox fx:id="check_box_category" promptText="Select the Category">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Entertainment: Video Games (id: 15)" />
-                        <String fx:value="Science: Computers (id: 18)" />
-                        <String fx:value="Mythology (id: 20)" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-            <Button fx:id="sub" text="submit settings" onAction="#submit"></Button>
-        </VBox>
+      <AnchorPane prefHeight="875.0" prefWidth="1920.0">
+         <children>
+               <ComboBox fx:id="check_box_category" layoutX="987.0" layoutY="306.0" promptText="Select the Category">
+                   <items>
+                       <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Entertainment: Video Games (id: 15)" />
+                           <String fx:value="Science: Computers (id: 18)" />
+                           <String fx:value="Mythology (id: 20)" />
+                       </FXCollections>
+                   </items>
+               </ComboBox>
+               <ComboBox fx:id="check_box_difficulty" layoutX="709.0" layoutY="306.0" promptText="Select the Difficulty">
+                   <items>
+                       <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="easy" />
+                           <String fx:value="medium" />
+                           <String fx:value="hard" />
+                       </FXCollections>
+                   </items>
+               </ComboBox>
+               <Button fx:id="sub" layoutX="874.0" layoutY="536.0" onAction="#submit" text="submit settings" />
+         </children>
+      </AnchorPane>
     </center>
 
     <bottom>
         <VBox alignment="CENTER" spacing="10">
-            <Label text="Copyright (c) 2026 Author. All Rights Reserved."></Label>
+            <Label text="Copyright (c) 2026 Author. All Rights Reserved.">
+            <font>
+               <Font size="19.0" />
+            </font></Label>
         </VBox>
     </bottom>
 

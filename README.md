@@ -9,4 +9,4 @@ what needs to be done:
 - [X] create game class
 - [X] create game page FXML && game Page controller
 - [X] create unit tests for game class and controller
-- [ ] add css to the project
+- [X] add css to the project
