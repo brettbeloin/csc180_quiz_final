@@ -7,5 +7,6 @@ what needs to be done:
 - [X] create unit tests for database and start page
 - [X] hook the Database to the triva api
 - [X] create game class
-- [ ] create game page FXML && game Page controller
-- [ ] create unit tests for game class and controller
+- [X] create game page FXML && game Page controller
+- [X] create unit tests for game class and controller
+- [ ] add css to the project

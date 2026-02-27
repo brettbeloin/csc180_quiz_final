@@ -75,25 +75,22 @@ public class GameController {
 
     @FXML
     private void submit(ActionEvent event) {
-        if (this.current_question < test_questions.size() - 1) {
+        if (this.current_question < this.test_questions.size() - 1) {
             check_answers(event, this.current_question);
             set_ui(this.current_question);
         } else {
             disable_buttons();
-            new_game.setVisible(true);
-            start_game.setVisible(true);
             display_image();
+            this.new_game.setVisible(true);
+            this.start_game.setVisible(true);
         }
 
-        this.game_instance
-                .setScore(calculate_score(game_instance.getCorrect_guesses(), game_instance.getWrong_guesses()));
-
-        stats.setText(game_instance.toString());
     }
 
     @FXML
     private void new_game() throws IOException {
-        debug("You can see me now");
+        // debug("You can see me now");
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/startPage.fxml"));
         Parent root = loader.load();
 
@@ -105,7 +102,7 @@ public class GameController {
 
     @FXML
     private void start_game() throws IOException {
-        debug("You can see me now");
+        // debug("You can see me now");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Triva.fxml"));
         Parent root = loader.load();
@@ -121,14 +118,14 @@ public class GameController {
     }
 
     private void display_image() {
-        String path = (game_instance.getScore() >= 75.0) ? "/img/happy.jpg" : "/img/angry.jpg";
+        String path = (this.game_instance.getScore() >= 75.0) ? "/img/happy.jpg" : "/img/angry.jpg";
 
         Image image = new Image(getClass().getResource(path).toExternalForm());
 
-        score_image.setImage(image);
-        score_image.setFitWidth(100);
-        score_image.setPreserveRatio(true);
-        score_image.setVisible(true);
+        this.score_image.setImage(image);
+        this.score_image.setFitWidth(100);
+        this.score_image.setPreserveRatio(true);
+        this.score_image.setVisible(true);
     }
 
     protected String html_decoder(String input) {
@@ -145,7 +142,7 @@ public class GameController {
     }
 
     private void disable_buttons() {
-        for (Node node : game_box.getChildren()) {
+        for (Node node : this.game_box.getChildren()) {
             if (node instanceof Button) {
                 node.setDisable(true);
             }
@@ -168,11 +165,12 @@ public class GameController {
 
         this.question_id.setText(String.format("Question: %d", curr_question + 1));
         this.question_box.setText(html_decoder(this.game_questions.get(curr_question).getString("question")));
+        this.stats.setText(this.game_instance.toString());
 
-        btn1.setText(answers.get(0));
-        btn2.setText(answers.get(1));
-        btn3.setText(answers.get(2));
-        btn4.setText(answers.get(3));
+        this.btn1.setText(answers.get(0));
+        this.btn2.setText(answers.get(1));
+        this.btn2.setText(answers.get(2));
+        this.btn4.setText(answers.get(3));
 
     }
 
@@ -182,18 +180,22 @@ public class GameController {
         String correct_answer = this.game_questions.get(curr_question).getString("correct_answer");
 
         if (submited_answer.equals(correct_answer)) {
-            game_instance.setCorrect_guesses(game_instance.getCorrect_guesses() + 1);
+            this.game_instance.setCorrect_guesses(this.game_instance.getCorrect_guesses() + 1);
         } else {
-            game_instance.setWrong_guesses(game_instance.getWrong_guesses() + 1);
+            this.game_instance.setWrong_guesses(this.game_instance.getWrong_guesses() + 1);
         }
 
-        if (current_question < test_questions.size() - 1) {
-            current_question++;
+        if (this.current_question < this.test_questions.size() - 1) {
+            this.current_question++;
         }
+
+        this.game_instance
+                .setScore(calculate_score(this.game_instance.getCorrect_guesses(),
+                        this.game_instance.getWrong_guesses()));
     }
 
     protected List<String> create_question_array(int curr_question) {
-        Document doc = game_questions.get(curr_question);
+        Document doc = this.game_questions.get(curr_question);
 
         List<String> raw_incorrect = (List<String>) doc.get("incorrect_answers");
         List<String> clean_answers = new ArrayList<>();
@@ -239,7 +241,7 @@ public class GameController {
     }
 
     protected List<Document> get_question(String difficulty, String category) {
-        List<Document> questions = dal.get_questions_by_genre(dal.connect(), "quiz", difficulty, category);
+        List<Document> questions = this.dal.get_questions_by_genre(this.dal.connect(), "quiz", difficulty, category);
 
         this.test_questions.clear();
 
